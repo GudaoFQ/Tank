@@ -1,6 +1,8 @@
 package org.gudao;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -29,6 +31,9 @@ public class TankFrame extends Frame {
                 System.exit(0);
             }
         });
+
+        // 添加自定义键盘监听事件
+        this.addKeyListener(new MyKeyListener());
     }
 
 
@@ -41,7 +46,28 @@ public class TankFrame extends Frame {
     public void paint(Graphics g) {
         // 每次缩放窗口大小都会调用此方法，坐标也就会一直跟随改变
         g.fillRect(x,y,50,50);
-        x += 10;
-        y += 10;
+        //x += 10;
+        //y += 10;
+    }
+
+
+    /**
+     * @Auther: Gudao
+     * @Date: 2021/04/27
+     * @Description: 自定义键盘监听事件
+     */
+    class MyKeyListener extends KeyAdapter{
+        @Override
+        public void keyPressed(KeyEvent e) {
+            x += 30;// 此时不会重新刷新画布
+
+            // 默认会调用paint；也可以写个线程，每隔一段时间进行paint
+            //  repaint();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            System.out.println("released");
+        }
     }
 }
