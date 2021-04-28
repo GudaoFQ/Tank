@@ -13,6 +13,10 @@ import java.awt.event.WindowEvent;
  */
 public class TankFrame extends Frame {
     int x = 200,y = 200;
+    // 移动方向
+    Dir dir = Dir.DOWN;
+    // 移动速度
+    private static final int SPEED = 10;
 
     public TankFrame() throws HeadlessException {
         // 设置窗口大小
@@ -40,14 +44,29 @@ public class TankFrame extends Frame {
     /**
      * 窗口变化就会被执行
      *
+     * 每次刷新，哪个方向为true，那就一直增加那个方向对应的xy的值
+     *
      * @param g g
      */
     @Override
     public void paint(Graphics g) {
-        // 每次缩放窗口大小都会调用此方法，坐标也就会一直跟随改变
         g.fillRect(x,y,50,50);
-        //x += 10;
-        //y += 10;
+        switch (dir){
+            case LEFT:
+                x -= SPEED;
+                break;
+            case RIGHT:
+                x += SPEED;
+                break;
+            case UP:
+                y -= SPEED;
+                break;
+            case DOWN:
+                y += SPEED;
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -57,17 +76,86 @@ public class TankFrame extends Frame {
      * @Description: 自定义键盘监听事件
      */
     class MyKeyListener extends KeyAdapter{
+
+        boolean bL = false;
+        boolean bR = false;
+        boolean bU = false;
+        boolean bD = false;
+
+        /**
+         * 键盘按下执行
+         *
+         * @param e e
+         */
         @Override
         public void keyPressed(KeyEvent e) {
-            x += 30;// 此时不会重新刷新画布
-
-            // 默认会调用paint；也可以写个线程，每隔一段时间进行paint
-            //  repaint();
+            int keyCode = e.getKeyCode();
+            switch (keyCode){
+                case KeyEvent.VK_LEFT:
+                    bL = true;
+                    x -= 10;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = true;
+                    x += 10;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = true;
+                    y -= 10;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = true;
+                    y += 10;
+                    break;
+                default:
+                    break;
+            }
+            setMainTankDir();
         }
 
+        private void setMainTankDir() {
+            if(bL){
+                dir = Dir.LEFT;
+            }
+            if(bR){
+                dir = Dir.RIGHT;
+            }
+            if(bU){
+                dir = Dir.UP;
+            }
+            if(bD){
+                dir = Dir.DOWN;
+            }
+        }
+
+        /**
+         * 键盘抬起执行
+         *
+         * @param e e
+         */
         @Override
         public void keyReleased(KeyEvent e) {
-            System.out.println("released");
+            int keyCode = e.getKeyCode();
+            switch (keyCode){
+                case KeyEvent.VK_LEFT:
+                    bL = false;
+                    x -= 10;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = false;
+                    x += 10;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = false;
+                    y -= 10;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = false;
+                    y += 10;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
