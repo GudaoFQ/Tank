@@ -12,11 +12,7 @@ import java.awt.event.WindowEvent;
  * @Description:
  */
 public class TankFrame extends Frame {
-    int x = 200,y = 200;
-    // 移动方向
-    Dir dir = Dir.DOWN;
-    // 移动速度
-    private static final int SPEED = 10;
+    Tank tank = new Tank(200,200,Dir.DOWN);
 
     public TankFrame() throws HeadlessException {
         // 设置窗口大小
@@ -50,23 +46,8 @@ public class TankFrame extends Frame {
      */
     @Override
     public void paint(Graphics g) {
-        g.fillRect(x,y,50,50);
-        switch (dir){
-            case LEFT:
-                x -= SPEED;
-                break;
-            case RIGHT:
-                x += SPEED;
-                break;
-            case UP:
-                y -= SPEED;
-                break;
-            case DOWN:
-                y += SPEED;
-                break;
-            default:
-                break;
-        }
+        tank.paint(g);
+
     }
 
 
@@ -93,19 +74,15 @@ public class TankFrame extends Frame {
             switch (keyCode){
                 case KeyEvent.VK_LEFT:
                     bL = true;
-                    x -= 10;
                     break;
                 case KeyEvent.VK_RIGHT:
                     bR = true;
-                    x += 10;
                     break;
                 case KeyEvent.VK_UP:
                     bU = true;
-                    y -= 10;
                     break;
                 case KeyEvent.VK_DOWN:
                     bD = true;
-                    y += 10;
                     break;
                 default:
                     break;
@@ -115,16 +92,16 @@ public class TankFrame extends Frame {
 
         private void setMainTankDir() {
             if(bL){
-                dir = Dir.LEFT;
+               tank.setDir(Dir.LEFT);
             }
             if(bR){
-                dir = Dir.RIGHT;
+                tank.setDir(Dir.RIGHT);
             }
             if(bU){
-                dir = Dir.UP;
+                tank.setDir(Dir.UP);
             }
             if(bD){
-                dir = Dir.DOWN;
+                tank.setDir(Dir.DOWN);
             }
         }
 
@@ -139,19 +116,15 @@ public class TankFrame extends Frame {
             switch (keyCode){
                 case KeyEvent.VK_LEFT:
                     bL = false;
-                    x -= 10;
                     break;
                 case KeyEvent.VK_RIGHT:
                     bR = false;
-                    x += 10;
                     break;
                 case KeyEvent.VK_UP:
                     bU = false;
-                    y -= 10;
                     break;
                 case KeyEvent.VK_DOWN:
                     bD = false;
-                    y += 10;
                     break;
                 default:
                     break;
