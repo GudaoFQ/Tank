@@ -12,14 +12,22 @@ public class Bullet {
     private int x,y;
     private Dir dir;
     private static int  WIDTH = 5,HEIGHT = 5;
+    private boolean live = true;
+    private TankFrame tankFrame;
 
-    public Bullet(int x, int y, Dir dir) {
+    public Bullet(int x, int y, Dir dir, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.tankFrame = tankFrame;
     }
 
     public void paint(Graphics g) {
+        // 移除不在边框中的bullet
+        if(!live){
+            tankFrame.bulletList.remove(this);
+        }
+
         Color color = g.getColor();
         // 设置子弹颜色
         g.setColor(Color.red);
@@ -48,6 +56,9 @@ public class Bullet {
                 break;
             default:
                 break;
+        }
+        if(x<0 || y<0 || x>TankFrame.GAME_WITH || y>TankFrame.GAME_HEIGHT){
+            live = false;
         }
     }
 }
