@@ -21,7 +21,13 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
+        // 老颜色保存
+        Color color = g.getColor();
+        g.setColor(Color.cyan);
+        // 画坦克
         g.fillRect(x,y,50,50);
+        // 重新设置老的颜色
+        g.setColor(color);
         move();
     }
 

@@ -14,10 +14,11 @@ import java.awt.event.WindowEvent;
 public class TankFrame extends Frame {
     Tank tank = new Tank(200,200,Dir.DOWN);
     Bullet bullet = new Bullet(300,300,Dir.DOWN);
+    static final int GAME_WITH = 800, GAME_HEIGHT = 600;
 
     public TankFrame() throws HeadlessException {
         // 设置窗口大小
-        setSize(800,600);
+        setSize(GAME_WITH,GAME_HEIGHT);
         // 设置是否能再次改变大小
         setResizable(false);
         // 设置标题
@@ -37,6 +38,26 @@ public class TankFrame extends Frame {
         this.addKeyListener(new MyKeyListener());
     }
 
+    Image offScreenImage = null;
+
+    /**
+     * 双缓冲解决界面闪烁问题
+     *
+     * @param g g
+     */
+    @Override
+    public void update(Graphics g) {
+        if(null == offScreenImage){
+            offScreenImage = this.createImage(GAME_WITH,GAME_HEIGHT);
+        }
+        Graphics graphics = offScreenImage.getGraphics();
+        Color color = graphics.getColor();
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0,0,GAME_WITH,GAME_HEIGHT);
+        graphics.setColor(color);
+        paint(graphics);
+         g.drawImage(offScreenImage,0,0,null);
+    }
 
     /**
      * 窗口变化就会被执行
