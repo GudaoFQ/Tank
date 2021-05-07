@@ -11,7 +11,7 @@ public class Bullet {
     private static final int SPEED = 10;
     private int x,y;
     private Dir dir;
-    private static int  WIDTH = 5,HEIGHT = 5;
+    public static int  WIDTH = ResourceMgr.bulletD.getWidth(),HEIGHT = ResourceMgr.bulletD.getHeight();
     private boolean live = true;
     private TankFrame tankFrame;
 

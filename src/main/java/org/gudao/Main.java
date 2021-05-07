@@ -1,8 +1,6 @@
 package org.gudao;
 
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.Frame;
 
 /**
  * @Auther: Gudao
@@ -12,7 +10,13 @@ import java.awt.event.WindowEvent;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         // 创建窗口对象
-        Frame f = new TankFrame();
+        TankFrame f = new TankFrame();
+
+        // 创建5个坦克
+        for (int i = 0; i < 5; i++) {
+            f.tankList.add(new Tank(50 + i*80, 200, Dir.DOWN, f));
+        }
+
         while (true){
             Thread.sleep(50);
             f.repaint();
