@@ -14,12 +14,22 @@ public class Bullet {
     public static int  WIDTH = ResourceMgr.bulletD.getWidth(),HEIGHT = ResourceMgr.bulletD.getHeight();
     private boolean living = true;
     private TankFrame tankFrame;
+    private Group group = Group.Bad;
 
-    public Bullet(int x, int y, Dir dir, TankFrame tankFrame) {
+    public Bullet(int x, int y, Dir dir, TankFrame tankFrame,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tankFrame = tankFrame;
+        this.group = group;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public void paint(Graphics g) {
@@ -72,6 +82,10 @@ public class Bullet {
     }
 
     public void collideWith(Tank tank) {
+        // 判断敌我的子弹
+        if(this.group == tank.getGroup()){
+            return;
+        }
         Rectangle rectangle1 = new Rectangle(this.x,this.y,WIDTH,HEIGHT);
         Rectangle rectangle2 = new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
         if (rectangle1.intersects(rectangle2)){

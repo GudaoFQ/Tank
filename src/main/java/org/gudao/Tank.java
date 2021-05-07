@@ -1,6 +1,7 @@
 package org.gudao;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * @Auther: Gudao
@@ -12,9 +13,13 @@ public class Tank {
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 5;
     public static int  WIDTH = ResourceMgr.tankL.getWidth(),HEIGHT = ResourceMgr.tankL.getHeight();
-    private boolean moving = false;
+    private boolean moving = true;
     private TankFrame tankFrame;
     private boolean living = true;
+    // 设置坦克组
+    private Group group = Group.Bad;
+    // 坦克随机移动用
+    private Random random = new Random();
 
     public int getX() {
         return x;
@@ -32,12 +37,21 @@ public class Tank {
         this.y = y;
     }
 
-    public Tank(int x, int y, Dir dir, TankFrame tankFrame) {
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Tank(int x, int y, Dir dir, TankFrame tankFrame, Group group) {
         super();
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tankFrame = tankFrame;
+        this.group = group;
     }
 
     public void paint(Graphics g) {
@@ -87,6 +101,11 @@ public class Tank {
             default:
                 break;
         }
+
+        // 设置敌人坦克开火
+        if(random.nextInt(8) > 5){
+            this.fire();
+        }
     }
 
 
@@ -111,7 +130,7 @@ public class Tank {
     public void fire() {
         int bx = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
         int by = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
-        tankFrame.bulletList.add(new Bullet(bx,by,this.dir,tankFrame));
+        tankFrame.bulletList.add(new Bullet(bx,by,this.dir,tankFrame,this.group));
     }
 
     public void die() {
