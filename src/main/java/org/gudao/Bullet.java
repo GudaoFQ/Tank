@@ -12,7 +12,7 @@ public class Bullet {
     private int x,y;
     private Dir dir;
     public static int  WIDTH = ResourceMgr.bulletD.getWidth(),HEIGHT = ResourceMgr.bulletD.getHeight();
-    private boolean live = true;
+    private boolean living = true;
     private TankFrame tankFrame;
 
     public Bullet(int x, int y, Dir dir, TankFrame tankFrame) {
@@ -24,7 +24,7 @@ public class Bullet {
 
     public void paint(Graphics g) {
         // 移除不在边框中的bullet
-        if(!live){
+        if(!living){
             tankFrame.bulletList.remove(this);
         }
 
@@ -67,7 +67,20 @@ public class Bullet {
                 break;
         }
         if(x<0 || y<0 || x>TankFrame.GAME_WITH || y>TankFrame.GAME_HEIGHT){
-            live = false;
+            living = false;
         }
+    }
+
+    public void collideWith(Tank tank) {
+        Rectangle rectangle1 = new Rectangle(this.x,this.y,WIDTH,HEIGHT);
+        Rectangle rectangle2 = new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
+        if (rectangle1.intersects(rectangle2)){
+            tank.die();
+            this.die();
+        }
+    }
+
+    private void die() {
+        this.living = false;
     }
 }

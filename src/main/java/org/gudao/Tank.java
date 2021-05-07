@@ -14,6 +14,23 @@ public class Tank {
     public static int  WIDTH = ResourceMgr.tankL.getWidth(),HEIGHT = ResourceMgr.tankL.getHeight();
     private boolean moving = false;
     private TankFrame tankFrame;
+    private boolean living = true;
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     public Tank(int x, int y, Dir dir, TankFrame tankFrame) {
         super();
@@ -24,6 +41,11 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
+        // 判断坦克是否活着
+        if (!living){
+            tankFrame.tankList.remove(this);
+        }
+
         // 坦克图片引入
         switch (dir){
             case LEFT:
@@ -90,5 +112,9 @@ public class Tank {
         int bx = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
         int by = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
         tankFrame.bulletList.add(new Bullet(bx,by,this.dir,tankFrame));
+    }
+
+    public void die() {
+        this.living = false;
     }
 }
