@@ -28,12 +28,21 @@ public class Bullet {
             tankFrame.bulletList.remove(this);
         }
 
-        Color color = g.getColor();
-        // 设置子弹颜色
-        g.setColor(Color.red);
-        // 设置子弹大小与位置
-        g.fillOval(x,y,WIDTH,HEIGHT);
-        g.setColor(color);
+        // 子弹图片引入
+        switch (dir){
+            case LEFT:
+                g.drawImage(ResourceMgr.bulletL, x, y, null);
+                break;
+            case RIGHT:
+                g.drawImage(ResourceMgr.bulletR,x,y,null);
+                break;
+            case UP:
+                g.drawImage(ResourceMgr.bulletU,x,y,null);
+                break;
+            case DOWN:
+                g.drawImage(ResourceMgr.bulletD,x,y,null);
+                break;
+        }
         move();
     }
 

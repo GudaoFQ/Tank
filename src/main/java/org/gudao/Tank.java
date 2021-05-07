@@ -37,7 +37,6 @@ public class Tank {
             case DOWN:
                 g.drawImage(ResourceMgr.tankD,x,y,null);
                 break;
-
         }
         move();
     }
